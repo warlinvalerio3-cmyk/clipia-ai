@@ -3,62 +3,106 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CLIPIA AI — Crea tus clips</title>
+<meta name="theme-color" content="#0b1020">
+<title>CLIPIA AI — Editor de clips</title>
 <style>
 :root{--bg:#0b1020;--panel:#121a2e;--line:#263451;--text:#f4f7ff;--muted:#9aa8c3;--lime:#c7f36b;--cyan:#6de3dc}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#1b3150 0,transparent 35%),var(--bg);color:var(--text);font:16px/1.5 Inter,system-ui,Segoe UI,sans-serif}
-header{display:flex;justify-content:space-between;align-items:center;padding:22px max(5vw,20px);border-bottom:1px solid #ffffff12}
-.logo{font-size:22px;font-weight:900;letter-spacing:1px}.logo span{color:var(--lime)}.tag{color:var(--muted);font-size:13px}
-main{max-width:1100px;margin:55px auto;padding:0 22px}.hero{text-align:center;margin-bottom:35px}.pill{display:inline-block;border:1px solid #49614a;color:var(--lime);border-radius:99px;padding:6px 13px;font-size:12px;letter-spacing:1px;text-transform:uppercase}
-h1{font-size:clamp(36px,6vw,62px);line-height:1.05;margin:18px 0}h1 em{font-style:normal;color:var(--lime)}.hero p{color:var(--muted);max-width:620px;margin:auto}
-.panel{background:linear-gradient(145deg,#151f36,#10182a);border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:0 22px 70px #0005}
-label{display:block;font-size:13px;color:#bdc9df;margin:0 0 8px}.urlrow{display:flex;gap:10px}.urlrow input{flex:1}
-input,select{width:100%;background:#0a1223;color:white;border:1px solid #34435f;border-radius:12px;padding:14px;font:inherit;outline:none}input:focus,select:focus{border-color:var(--lime)}
-button{border:0;border-radius:12px;padding:13px 18px;font-weight:800;cursor:pointer;background:var(--lime);color:#14200a;font-size:14px}button.secondary{background:#263550;color:#eaf0ff;border:1px solid #3a4a68}button:hover{filter:brightness(1.08)}
-.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:18px}.video{background:#080d18;border:1px solid var(--line);border-radius:16px;overflow:hidden;aspect-ratio:16/9;display:grid;place-items:center;color:var(--muted);text-align:center}.video iframe{width:100%;height:100%;border:0}.placeholder{padding:20px}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.wide{grid-column:1/-1}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.result{margin-top:15px;background:#0a1223;border:1px solid #34435f;padding:14px;border-radius:12px;display:none;overflow-wrap:anywhere}.result a{color:var(--cyan)}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:24px 0}.step{background:#111a2d;border:1px solid var(--line);border-radius:15px;padding:17px}.num{color:var(--lime);font-weight:900;font-size:13px}.step b{display:block;margin:5px 0}.step small{color:var(--muted)}
-.note{color:var(--muted);font-size:12px;margin-top:18px}footer{text-align:center;color:#75839e;font-size:12px;padding:35px 20px}
-@media(max-width:760px){.layout{grid-template-columns:1fr}.urlrow{flex-direction:column}.steps{grid-template-columns:1fr}.panel{padding:18px}main{margin:35px auto}}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px max(5vw,18px);border-bottom:1px solid #ffffff12}.logo{font-size:22px;font-weight:900;letter-spacing:1px}.logo span{color:var(--lime)}.tag{color:var(--muted);font-size:13px}
+main{max-width:1100px;margin:42px auto;padding:0 20px}.hero{text-align:center;margin-bottom:28px}.pill{display:inline-block;border:1px solid #49614a;color:var(--lime);border-radius:99px;padding:6px 13px;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(34px,6vw,58px);line-height:1.05;margin:17px 0}h1 em{font-style:normal;color:var(--lime)}.hero p{color:var(--muted);max-width:680px;margin:auto}
+.panel{background:linear-gradient(145deg,#151f36,#10182a);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 22px 70px #0005}
+.upload{border:2px dashed #465879;border-radius:16px;padding:24px;text-align:center;background:#0a1223}.upload strong{display:block;font-size:18px;margin-bottom:5px}.upload p{color:var(--muted);font-size:13px;margin:4px 0 14px}
+input,select{width:100%;background:#0a1223;color:white;border:1px solid #34435f;border-radius:11px;padding:12px;font:inherit;outline:none}input:focus,select:focus{border-color:var(--lime)}input[type=file]{max-width:100%;border:0;padding:8px}
+label{display:block;font-size:13px;color:#bdc9df;margin:0 0 7px}
+button{border:0;border-radius:11px;padding:12px 17px;font-weight:800;cursor:pointer;background:var(--lime);color:#14200a;font-size:14px}button.secondary{background:#263550;color:#eaf0ff;border:1px solid #3a4a68}button:disabled{opacity:.45;cursor:not-allowed}button:hover:not(:disabled){filter:brightness(1.08)}
+.editor{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px}.preview{background:#050912;border:1px solid var(--line);border-radius:15px;overflow:hidden;display:grid;place-items:center;min-height:300px;position:relative}.preview video{display:block;max-width:100%;max-height:480px;width:100%;background:#050912}.empty{padding:25px;text-align:center;color:var(--muted)}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px}.wide{grid-column:1/-1}.hint{font-size:12px;color:var(--muted);margin:6px 0 0}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.status{margin-top:14px;padding:12px;border-radius:11px;background:#0a1223;border:1px solid #34435f;color:var(--cyan);font-size:13px;display:none}.progress{width:100%;height:9px;background:#263550;border-radius:99px;overflow:hidden;margin-top:9px;display:none}.progress div{height:100%;width:0;background:var(--lime);transition:width .15s}
+.info{background:#111a2d;border:1px solid var(--line);border-radius:15px;padding:16px;margin-top:18px;color:var(--muted);font-size:13px}.info b{color:var(--text)}.note{color:var(--muted);font-size:12px;margin-top:16px}footer{text-align:center;color:#75839e;font-size:12px;padding:30px 18px}
+@media(max-width:760px){.editor{grid-template-columns:1fr}.panel{padding:16px}.preview{min-height:220px}main{margin:28px auto}.tag{display:none}}
 </style>
 </head>
 <body>
-<header><div class="logo">CLIPIA<span> AI</span></div><div class="tag">Tu espacio para crear clips</div></header>
+<header><div class="logo">CLIPIA<span> AI</span></div><div class="tag">Editor de clips en tu dispositivo</div></header>
 <main>
-<section class="hero"><div class="pill">Rápido · Simple · En español</div><h1>De video largo a <em>momento viral.</em></h1><p>Pega un enlace de YouTube, busca el momento exacto y crea un enlace directo para compartir ese fragmento.</p></section>
+<section class="hero"><div class="pill">Editor gratuito · Sin marca de agua</div><h1>Tu video largo, <em>tus mejores clips.</em></h1><p>Sube un video desde tu celular o computadora, selecciona el fragmento, elige el formato y crea un archivo de video sin marca de agua.</p></section>
 <section class="panel">
-<label for="yt">ENLACE DEL VIDEO DE YOUTUBE</label>
-<div class="urlrow"><input id="yt" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url"><button id="load">Cargar video</button></div>
-<div class="layout">
-<div><div class="video" id="video"><div class="placeholder">▶<br>Tu video aparecerá aquí<br><small>Pega un enlace de YouTube para comenzar</small></div></div></div>
+<div class="upload"><strong>📁 Selecciona tu video</strong><p>El archivo se procesa localmente en este dispositivo; no se sube a un servidor.</p><input id="file" type="file" accept="video/*"></div>
+<div class="editor">
+<div><div class="preview" id="preview"><div class="empty">La vista previa de tu video aparecerá aquí.</div></div><div class="actions"><button class="secondary" id="play" disabled>▶ Reproducir / Pausar</button></div></div>
 <div>
 <div class="controls">
-<div><label for="start">INICIO (segundos)</label><input id="start" type="number" min="0" value="0"></div>
-<div><label for="end">FINAL (segundos)</label><input id="end" type="number" min="1" value="30"></div>
-<div class="wide"><label for="format">FORMATO DE PUBLICACIÓN</label><select id="format"><option value="16:9">Horizontal · YouTube</option><option value="9:16">Vertical · Shorts / Reels / TikTok</option><option value="1:1">Cuadrado · Instagram</option></select></div>
+<div><label for="start">INICIO (segundos)</label><input id="start" type="number" min="0" step=".1" value="0" disabled></div>
+<div><label for="end">FINAL (segundos)</label><input id="end" type="number" min="0" step=".1" value="30" disabled></div>
+<div class="wide"><label for="format">FORMATO DEL CLIP</label><select id="format" disabled><option value="9:16">Vertical 9:16 · TikTok / Reels / Shorts</option><option value="16:9">Horizontal 16:9 · YouTube</option><option value="1:1">Cuadrado 1:1 · Instagram</option></select></div>
+<div class="wide"><label for="caption">TEXTO OPCIONAL EN PANTALLA</label><input id="caption" type="text" maxlength="90" placeholder="Escribe un título o subtítulo..." disabled></div>
+<div class="wide"><label for="quality">CALIDAD</label><select id="quality" disabled><option value="720">720p · Más rápido</option><option value="1080">1080p · Mayor calidad</option></select></div>
 </div>
-<div class="actions"><button id="make">Crear enlace del clip</button><button class="secondary" id="copy">Copiar enlace</button></div>
-<div class="result" id="result"></div>
-<p class="note">Este prototipo genera un enlace de YouTube que comienza en el segundo elegido. El formato seleccionado es una preferencia para la edición; no transforma ni descarga el archivo.</p>
-</div>
-</div>
+<p class="hint" id="duration">Primero selecciona un archivo de video.</p>
+<div class="actions"><button id="render" disabled>Crear y descargar clip</button></div>
+<div class="status" id="status"></div><div class="progress" id="progress"><div id="bar"></div></div>
+<p class="note">La exportación se realiza en tu navegador. Según el navegador, el archivo se descargará en formato WebM. Mantén esta página abierta mientras se procesa.</p>
+</div></div>
+<div class="info"><b>Importante:</b> esta primera versión ya recorta y exporta clips reales, sin añadir marca de agua. El encuadre vertical es centrado y el texto es manual. Todavía no incluye detección automática de momentos virales ni subtítulos generados por IA. El límite práctico depende de la memoria, potencia y batería de tu dispositivo.</div>
 </section>
-<section class="steps">
-<div class="step"><div class="num">01 / PEGA</div><b>Agrega el enlace</b><small>Usa un enlace válido de YouTube.</small></div>
-<div class="step"><div class="num">02 / RECORTA</div><b>Elige el momento</b><small>Indica el segundo de inicio y final.</small></div>
-<div class="step"><div class="num">03 / COMPARTE</div><b>Crea tu enlace</b><small>Compártelo o ábrelo directamente.</small></div>
-</section>
-<p class="note">Usa únicamente videos que sean tuyos o para los que tengas permiso. La descarga y edición de videos de terceros puede estar limitada por los derechos de autor y las condiciones de YouTube.</p>
+<p class="note">Usa videos propios o que tengas permiso para editar. No pegues enlaces de YouTube en esta versión: selecciona el archivo de video original.</p>
 </main>
-<footer>CLIPIA AI · Prototipo inicial · No afiliado a YouTube</footer>
+<footer>CLIPIA AI · Editor local de video · Sin marca de agua</footer>
 <script>
-let videoId='';
-function parseId(raw){try{const u=new URL(raw);if(u.hostname==='youtu.be')return u.pathname.slice(1);if(u.hostname.endsWith('youtube.com')){if(u.pathname==='/watch')return u.searchParams.get('v');const m=u.pathname.match(/^\/(?:embed|shorts)\/([^/?]+)/);return m?m[1]:null}}catch(e){}return null}
-const yt=document.getElementById('yt'), video=document.getElementById('video'), result=document.getElementById('result');
-function load(){videoId=parseId(yt.value.trim());if(!videoId){alert('Pega un enlace válido de YouTube.');return}video.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(videoId)+'" title="Reproductor de YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';result.style.display='none'}
-document.getElementById('load').onclick=load;
-function make(){if(!videoId){load();if(!videoId)return}const s=Math.max(0,Math.floor(Number(document.getElementById('start').value)||0));const e=Math.floor(Number(document.getElementById('end').value)||0);if(e<=s){alert('El final debe ser mayor que el inicio.');return}const url='https://www.youtube.com/watch?v='+videoId+'&t='+s+'s';result.style.display='block';result.innerHTML='<b>Tu enlace está listo</b><br><a href="'+url+'" target="_blank" rel="noopener">'+url+'</a><br><small>Fragmento seleccionado: '+s+'s – '+e+'s ('+(e-s)+' segundos). YouTube abrirá el video desde el inicio elegido.</small>';result.dataset.url=url}
-document.getElementById('make').onclick=make;
-document.getElementById('copy').onclick=async()=>{if(!result.dataset.url){make();if(!result.dataset.url)return}try{await navigator.clipboard.writeText(result.dataset.url);alert('Enlace copiado.')}catch(e){alert('Copia este enlace: '+result.dataset.url)}};
+const fileInput=document.getElementById('file'),preview=document.getElementById('preview'),startInput=document.getElementById('start'),endInput=document.getElementById('end'),formatInput=document.getElementById('format'),captionInput=document.getElementById('caption'),qualityInput=document.getElementById('quality'),renderBtn=document.getElementById('render'),playBtn=document.getElementById('play'),statusBox=document.getElementById('status'),progress=document.getElementById('progress'),bar=document.getElementById('bar'),durationLabel=document.getElementById('duration');
+let video=null,objectUrl=null,busy=false;
+function status(msg){statusBox.style.display='block';statusBox.textContent=msg}
+function setEnabled(on){[startInput,endInput,formatInput,captionInput,qualityInput,renderBtn,playBtn].forEach(x=>x.disabled=!on)}
+fileInput.addEventListener('change',()=>{
+ const f=fileInput.files&&fileInput.files[0];if(!f)return;
+ if(!f.type.startsWith('video/')){alert('Selecciona un archivo de video.');return}
+ if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=URL.createObjectURL(f);
+ preview.innerHTML='';video=document.createElement('video');video.src=objectUrl;video.controls=true;video.playsInline=true;video.preload='metadata';preview.appendChild(video);
+ video.addEventListener('loadedmetadata',()=>{startInput.value='0';endInput.value=Math.floor(video.duration);startInput.max=video.duration;endInput.max=video.duration;durationLabel.textContent='Duración del video: '+formatTime(video.duration)+'. Selecciona el inicio y el final.';setEnabled(true);statusBox.style.display='none'});
+ video.addEventListener('error',()=>status('No se pudo abrir este video. Prueba con un archivo MP4 o MOV compatible.'));
+});
+function formatTime(s){if(!Number.isFinite(s))return '—';const m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+String(sec).padStart(2,'0')}
+playBtn.addEventListener('click',()=>{if(!video)return;video.paused?video.play():video.pause()});
+function chooseMime(){const types=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm'];return types.find(t=>MediaRecorder.isTypeSupported(t))||''}
+renderBtn.addEventListener('click',async()=>{
+ if(!video||busy)return;
+ const from=Math.max(0,Number(startInput.value)),to=Math.min(video.duration,Number(endInput.value));
+ if(!Number.isFinite(from)||!Number.isFinite(to)||to<=from||to>video.duration){alert('Revisa el inicio y el final del clip. El final debe ser mayor y no superar la duración del video.');return}
+ if(!window.MediaRecorder||!HTMLCanvasElement.prototype.captureStream){status('Tu navegador no permite exportar video desde esta página. Prueba con Chrome o Edge actualizado en una computadora.');return}
+ busy=true;renderBtn.disabled=true;fileInput.disabled=true;progress.style.display='block';bar.style.width='0%';status('Preparando el clip...');
+ const ratio=formatInput.value.split(':').map(Number),aspect=ratio[0]/ratio[1],height=Number(qualityInput.value),width=Math.round(height*aspect);
+ const canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;const ctx=canvas.getContext('2d');
+ const stream=canvas.captureStream(30);let sourceStream=null;
+ try{if(video.captureStream)sourceStream=video.captureStream();else if(video.mozCaptureStream)sourceStream=video.mozCaptureStream();if(sourceStream)sourceStream.getAudioTracks().forEach(t=>stream.addTrack(t))}catch(e){}
+ const mime=chooseMime();let recorder;
+ try{recorder=new MediaRecorder(stream,mime?{mimeType:mime,videoBitsPerSecond:4500000}:undefined)}catch(e){busy=false;renderBtn.disabled=false;fileInput.disabled=false;status('No se pudo iniciar la exportación en este navegador. Prueba Chrome o Edge actualizado.');return}
+ const chunks=[];recorder.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+ const stopped=new Promise(resolve=>recorder.onstop=resolve);
+ let raf=0,finished=false;
+ const draw=()=>{
+  if(finished)return;
+  const vw=video.videoWidth,vh=video.videoHeight;if(vw&&vh){
+   const srcAspect=vw/vh;let sx=0,sy=0,sw=vw,sh=vh;
+   if(srcAspect>aspect){sw=vh*aspect;sx=(vw-sw)/2}else{sh=vw/aspect;sy=(vh-sh)/2}
+   ctx.fillStyle='#000';ctx.fillRect(0,0,width,height);ctx.drawImage(video,sx,sy,sw,sh,0,0,width,height);
+   const text=captionInput.value.trim();if(text){const fs=Math.max(24,Math.round(width*.055));ctx.font='bold '+fs+'px Arial';ctx.textAlign='center';ctx.textBaseline='middle';const lines=[];let line='';for(const word of text.split(/\s+/)){const test=line?line+' '+word:word;if(ctx.measureText(test).width>width*.84&&line){lines.push(line);line=word}else line=test}if(line)lines.push(line);const lineH=fs*1.25,base=height*.78-(lines.length-1)*lineH/2;ctx.lineWidth=Math.max(3,fs*.13);ctx.strokeStyle='#000';ctx.fillStyle='#fff';lines.forEach((ln,i)=>{ctx.strokeText(ln,width/2,base+i*lineH);ctx.fillText(ln,width/2,base+i*lineH)})}
+  }
+  const pct=Math.min(100,Math.max(0,((video.currentTime-from)/(to-from))*100));bar.style.width=pct+'%';raf=requestAnimationFrame(draw);
+  if(video.currentTime>=to||video.ended){finish()}
+ };
+ const finish=()=>{if(finished)return;finished=true;cancelAnimationFrame(raf);try{recorder.stop()}catch(e){}video.pause()};
+ recorder.start(250);
+ video.currentTime=from;
+ await new Promise((resolve,reject)=>{const onSeek=()=>{video.removeEventListener('seeked',onSeek);resolve()};video.addEventListener('seeked',onSeek);setTimeout(()=>{video.removeEventListener('seeked',onSeek);resolve()},1500)});
+ status('Procesando el video... no cierres esta página.');
+ try{await video.play()}catch(e){finish();status('El navegador bloqueó la reproducción. Pulsa reproducir en el video y vuelve a crear el clip.');busy=false;renderBtn.disabled=false;fileInput.disabled=false;return}
+ raf=requestAnimationFrame(draw);
+ const safety=setTimeout(finish,Math.max(10000,(to-from+5)*1000));
+ await stopped;clearTimeout(safety);stream.getTracks().forEach(t=>t.stop());if(sourceStream)sourceStream.getTracks().forEach(t=>t.stop());
+ if(chunks.length){const blob=new Blob(chunks,{type:recorder.mimeType||'video/webm'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='clipia-clip-'+Date.now()+'.webm';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);status('¡Clip creado! La descarga comenzó. Archivo sin marca de agua.')}
+ else status('No se generó el archivo. Prueba con otro video o un fragmento más corto.');
+ busy=false;renderBtn.disabled=false;fileInput.disabled=false;progress.style.display='none';bar.style.width='0%';
+});
 </script>
-</body></html>
+</body>
+</html>
