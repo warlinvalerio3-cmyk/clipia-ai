@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CLIPIA AI — Crea tus clips</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2e;--line:#263451;--text:#f4f7ff;--muted:#9aa8c3;--lime:#c7f36b;--cyan:#6de3dc}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#1b3150 0,transparent 35%),var(--bg);color:var(--text);font:16px/1.5 Inter,system-ui,Segoe UI,sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;padding:22px max(5vw,20px);border-bottom:1px solid #ffffff12}
+.logo{font-size:22px;font-weight:900;letter-spacing:1px}.logo span{color:var(--lime)}.tag{color:var(--muted);font-size:13px}
+main{max-width:1100px;margin:55px auto;padding:0 22px}.hero{text-align:center;margin-bottom:35px}.pill{display:inline-block;border:1px solid #49614a;color:var(--lime);border-radius:99px;padding:6px 13px;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+h1{font-size:clamp(36px,6vw,62px);line-height:1.05;margin:18px 0}h1 em{font-style:normal;color:var(--lime)}.hero p{color:var(--muted);max-width:620px;margin:auto}
+.panel{background:linear-gradient(145deg,#151f36,#10182a);border:1px solid var(--line);border-radius:22px;padding:25px;box-shadow:0 22px 70px #0005}
+label{display:block;font-size:13px;color:#bdc9df;margin:0 0 8px}.urlrow{display:flex;gap:10px}.urlrow input{flex:1}
+input,select{width:100%;background:#0a1223;color:white;border:1px solid #34435f;border-radius:12px;padding:14px;font:inherit;outline:none}input:focus,select:focus{border-color:var(--lime)}
+button{border:0;border-radius:12px;padding:13px 18px;font-weight:800;cursor:pointer;background:var(--lime);color:#14200a;font-size:14px}button.secondary{background:#263550;color:#eaf0ff;border:1px solid #3a4a68}button:hover{filter:brightness(1.08)}
+.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:18px}.video{background:#080d18;border:1px solid var(--line);border-radius:16px;overflow:hidden;aspect-ratio:16/9;display:grid;place-items:center;color:var(--muted);text-align:center}.video iframe{width:100%;height:100%;border:0}.placeholder{padding:20px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.wide{grid-column:1/-1}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.result{margin-top:15px;background:#0a1223;border:1px solid #34435f;padding:14px;border-radius:12px;display:none;overflow-wrap:anywhere}.result a{color:var(--cyan)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:24px 0}.step{background:#111a2d;border:1px solid var(--line);border-radius:15px;padding:17px}.num{color:var(--lime);font-weight:900;font-size:13px}.step b{display:block;margin:5px 0}.step small{color:var(--muted)}
+.note{color:var(--muted);font-size:12px;margin-top:18px}footer{text-align:center;color:#75839e;font-size:12px;padding:35px 20px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.urlrow{flex-direction:column}.steps{grid-template-columns:1fr}.panel{padding:18px}main{margin:35px auto}}
+</style>
+</head>
+<body>
+<header><div class="logo">CLIPIA<span> AI</span></div><div class="tag">Tu espacio para crear clips</div></header>
+<main>
+<section class="hero"><div class="pill">Rápido · Simple · En español</div><h1>De video largo a <em>momento viral.</em></h1><p>Pega un enlace de YouTube, busca el momento exacto y crea un enlace directo para compartir ese fragmento.</p></section>
+<section class="panel">
+<label for="yt">ENLACE DEL VIDEO DE YOUTUBE</label>
+<div class="urlrow"><input id="yt" placeholder="https://www.youtube.com/watch?v=..." autocomplete="url"><button id="load">Cargar video</button></div>
+<div class="layout">
+<div><div class="video" id="video"><div class="placeholder">▶<br>Tu video aparecerá aquí<br><small>Pega un enlace de YouTube para comenzar</small></div></div></div>
+<div>
+<div class="controls">
+<div><label for="start">INICIO (segundos)</label><input id="start" type="number" min="0" value="0"></div>
+<div><label for="end">FINAL (segundos)</label><input id="end" type="number" min="1" value="30"></div>
+<div class="wide"><label for="format">FORMATO DE PUBLICACIÓN</label><select id="format"><option value="16:9">Horizontal · YouTube</option><option value="9:16">Vertical · Shorts / Reels / TikTok</option><option value="1:1">Cuadrado · Instagram</option></select></div>
+</div>
+<div class="actions"><button id="make">Crear enlace del clip</button><button class="secondary" id="copy">Copiar enlace</button></div>
+<div class="result" id="result"></div>
+<p class="note">Este prototipo genera un enlace de YouTube que comienza en el segundo elegido. El formato seleccionado es una preferencia para la edición; no transforma ni descarga el archivo.</p>
+</div>
+</div>
+</section>
+<section class="steps">
+<div class="step"><div class="num">01 / PEGA</div><b>Agrega el enlace</b><small>Usa un enlace válido de YouTube.</small></div>
+<div class="step"><div class="num">02 / RECORTA</div><b>Elige el momento</b><small>Indica el segundo de inicio y final.</small></div>
+<div class="step"><div class="num">03 / COMPARTE</div><b>Crea tu enlace</b><small>Compártelo o ábrelo directamente.</small></div>
+</section>
+<p class="note">Usa únicamente videos que sean tuyos o para los que tengas permiso. La descarga y edición de videos de terceros puede estar limitada por los derechos de autor y las condiciones de YouTube.</p>
+</main>
+<footer>CLIPIA AI · Prototipo inicial · No afiliado a YouTube</footer>
+<script>
+let videoId='';
+function parseId(raw){try{const u=new URL(raw);if(u.hostname==='youtu.be')return u.pathname.slice(1);if(u.hostname.endsWith('youtube.com')){if(u.pathname==='/watch')return u.searchParams.get('v');const m=u.pathname.match(/^\/(?:embed|shorts)\/([^/?]+)/);return m?m[1]:null}}catch(e){}return null}
+const yt=document.getElementById('yt'), video=document.getElementById('video'), result=document.getElementById('result');
+function load(){videoId=parseId(yt.value.trim());if(!videoId){alert('Pega un enlace válido de YouTube.');return}video.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+encodeURIComponent(videoId)+'" title="Reproductor de YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';result.style.display='none'}
+document.getElementById('load').onclick=load;
+function make(){if(!videoId){load();if(!videoId)return}const s=Math.max(0,Math.floor(Number(document.getElementById('start').value)||0));const e=Math.floor(Number(document.getElementById('end').value)||0);if(e<=s){alert('El final debe ser mayor que el inicio.');return}const url='https://www.youtube.com/watch?v='+videoId+'&t='+s+'s';result.style.display='block';result.innerHTML='<b>Tu enlace está listo</b><br><a href="'+url+'" target="_blank" rel="noopener">'+url+'</a><br><small>Fragmento seleccionado: '+s+'s – '+e+'s ('+(e-s)+' segundos). YouTube abrirá el video desde el inicio elegido.</small>';result.dataset.url=url}
+document.getElementById('make').onclick=make;
+document.getElementById('copy').onclick=async()=>{if(!result.dataset.url){make();if(!result.dataset.url)return}try{await navigator.clipboard.writeText(result.dataset.url);alert('Enlace copiado.')}catch(e){alert('Copia este enlace: '+result.dataset.url)}};
+</script>
+</body></html>
